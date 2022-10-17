@@ -10,6 +10,7 @@ const envVarsSchema = Joi.object()
       .valid("production", "development", "test")
       .required(),
     PORT: Joi.number().default(9000),
+    JWT_KEY: Joi.string().required().description('JWT secret key'),
     MONGODB_URI: Joi.string().required().description("Mongo DB url"),
   })
   .unknown();
@@ -31,5 +32,8 @@ export default {
       useUnifiedTopology: true,
       useFindAndModify: false,
     },
+  },
+  jwt: {
+    secret: envVars.JWT_KEY
   },
 };

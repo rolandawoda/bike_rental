@@ -6,6 +6,7 @@ import { getRoutes } from "./modules";
 
 const app = express();
 
+app.use(express.json({ limit: "50mb" }));
 app.use(successLogHandler);
 app.use(errorLogHandler);
 
@@ -13,7 +14,7 @@ app.get("/", (req, res) => {
   res.send("Oops! Nothing to see here!");
 });
 
-app.use("/api", getRoutes);
+app.use("/api", getRoutes());
 
 app.use((req, res, next) => {
   res.status(404).json({

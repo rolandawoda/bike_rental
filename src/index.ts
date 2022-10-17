@@ -8,7 +8,7 @@ import config from "config/config";
 let server: http.Server;
 
 const main = async () => {
-  await mongoose.connect(config.mongoose.url);
+  await mongoose.connect(config.mongoose.url, config.mongoose.options);
   server = app.listen(config.port, () => {
     logger.info(`Server listening on port ${config.port}`);
   });
