@@ -32,11 +32,10 @@ managerSchema.pre("save", async function (this: IManager) {
 });
 
 managerSchema.methods.removeSensitiveData = function () {
-  const manager = this.toObject()
-  delete manager.password
-  return manager
-}
-
+  const manager = this.toObject();
+  delete manager.password;
+  return manager;
+};
 
 managerSchema.statics.generateAuthToken = function (id, email) {
   const token = jwt.sign({ _id: id, email: email }, config.jwt.secret);

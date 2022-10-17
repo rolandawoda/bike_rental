@@ -5,29 +5,29 @@ import CustomError from "@utils/CustomError.class";
 const getManager: (id: string) => Promise<IManager> = async (id) => {
   const manager = await Manager.findById(id);
   if (!manager) throw new CustomError(404, "Manager not found");
- return manager.removeSensitiveData()
+  return manager.removeSensitiveData();
 };
 
 const getManagers: () => Promise<IManager[]> = async () => {
-  return await Manager.find()
-}
+  return await Manager.find();
+};
 
 const deleteManager: (id: string) => Promise<void> = async (id) => {
-  const manager = await Manager.findOneAndDelete({ id })
-  if (!manager) throw new CustomError(404, 'Manager not found')
-}
+  const manager = await Manager.findOneAndDelete({ id });
+  if (!manager) throw new CustomError(404, "Manager not found");
+};
 
-const updateManager: (
-  id: string,
-  data: IManager
-) => Promise<IManager> = async (id, data) => {
+const updateManager: (id: string, data: IManager) => Promise<IManager> = async (
+  id,
+  data
+) => {
   const manager = await Manager.findOneAndUpdate({ id }, data, {
-    new: true
-  })
-  if (!manager) throw new CustomError(404, 'Manager not found')
+    new: true,
+  });
+  if (!manager) throw new CustomError(404, "Manager not found");
 
-  return manager
-}
+  return manager;
+};
 
 const registerManager: (data: IManager) => Promise<any> = async (data) => {
   let check = await Manager.findOne({ email: data.email });
@@ -55,5 +55,7 @@ export default {
   getManager,
   getManagers,
   registerManager,
-  loginManager,deleteManager, updateManager
+  loginManager,
+  deleteManager,
+  updateManager,
 };
