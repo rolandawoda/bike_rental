@@ -59,7 +59,7 @@ const deleteManager = catchError(async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Manager deleted successfully",
-    data: null,
+    data: {},
   });
 });
 
@@ -71,7 +71,7 @@ const updateManager = catchError(async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Manager updated successfully",
-    data: manager,
+    data: {manager},
   });
 });
 
