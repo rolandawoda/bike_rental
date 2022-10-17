@@ -39,6 +39,19 @@ const getUser = catchError(async (req: IGetUserInfoRequest, res) => {
   });
 });
 
+export const getUserById = catchError(async (req, res) => {
+  const { id } = req.params;
+  let user = await userService.getUser(id);
+
+  res.status(201).json({
+    status: "success",
+    message: "User profile",
+    data: {
+      user,
+    },
+  });
+});
+
 const getUsers = catchError(async (req: IGetUserInfoRequest, res) => {
   let users = await userService.getUsers();
 

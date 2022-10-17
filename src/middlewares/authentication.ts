@@ -18,15 +18,19 @@ export const authenticateManager = async (
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return next(new CustomError(403, "Unauthorized"));
 
-  // @ts-ignore
-  const validateToken = jwt.verify(token, config.jwt.secret, {
-    ignoreExpiration: false,
-  });
+  try {
+    // @ts-ignore
+    const validateToken = jwt.verify(token, config.jwt.secret, {
+      ignoreExpiration: false,
+    });
 
-  if (!validateToken) return next(new CustomError(403, "Unauthorized"));
+    if (!validateToken) return next(new CustomError(403, "Unauthorized"));
 
-  req.managerID = validateToken._id;
-  req.managerEmail = validateToken.email;
+    req.managerID = validateToken._id;
+    req.managerEmail = validateToken.email;
+  } catch (err) {
+    return next(new CustomError(403, "Unauthorized"))
+  }
 
   next();
 };
@@ -44,15 +48,16 @@ export const authenticateUser = async (
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return next(new CustomError(403, "Unauthorized"));
 
-  // @ts-ignore
-  const validateToken = jwt.verify(token, config.jwt.secret, {
-    ignoreExpiration: false,
-  });
-
-  if (!validateToken) return next(new CustomError(403, "Unauthorized"));
-
-  req.userID = validateToken._id;
-  req.userEmail = validateToken.email;
-
+  try {
+    // @ts-ignore
+    const validateToken = jwt.verify(token, config.jwt.secret, {
+      ignoreExpiration: false,
+    });
+    if (!validateToken) return next(new CustomError(403, "Unauthorized"));
+    req.userID = validateToken._id;
+    req.userEmail = validateToken.email;
+  } catch (err) {
+    return next(new CustomError(500, "Internal server error"));
+  }
   next();
 };

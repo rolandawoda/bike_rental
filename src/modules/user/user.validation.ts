@@ -6,7 +6,7 @@ export const validateUserCreation = {
     email: Joi.string().email({
       minDomainSegments: 2,
       tlds: { allow: ["com", "net"] },
-    }),
+    }).required(),
     password: Joi.string().min(5).required(),
   }),
 };
@@ -25,6 +25,5 @@ export const validateUpdateUser = {
       minDomainSegments: 2,
       tlds: { allow: ["com", "net"] },
     }),
-    password: Joi.string().min(5),
   }),
 };

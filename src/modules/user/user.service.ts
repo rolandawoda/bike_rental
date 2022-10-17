@@ -9,11 +9,11 @@ const getUser: (id: string) => Promise<IUser> = async (id) => {
 };
 
 const getUsers: () => Promise<IUser[]> = async () => {
-  return await User.find();
+  return await User.find().select(['-password']);
 };
 
 const deleteUser: (id: string) => Promise<void> = async (id) => {
-  const user = await User.findOneAndDelete({ id });
+  const user = await User.findOneAndDelete({ _id: id });
   if (!user) throw new CustomError(404, "User not found");
 };
 
@@ -21,12 +21,13 @@ const updateUser: (id: string, data: IUser) => Promise<IUser> = async (
   id,
   data
 ) => {
-  const user = await User.findOneAndUpdate({ id }, data, {
+  delete data.password;
+  const user = await User.findOneAndUpdate({ _id: id }, data, {
     new: true,
   });
   if (!user) throw new CustomError(404, "User not found");
 
-  return user;
+  return user.removeSensitiveData();
 };
 
 const registerUser: (data: IUser) => Promise<any> = async (data) => {

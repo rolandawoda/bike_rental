@@ -19,7 +19,7 @@ const router = Router();
 // user authentication
 router.post("/auth/register", validate(validateUserCreation), registerUser);
 router.post("/auth/login", validate(validateUserLogin), loginUser);
-router.post("/auth", authenticateUser, getUser);
+router.get("/auth", authenticateUser, getUser);
 
 //user management
 router.put("/:id", authenticateUser, validate(validateUpdateUser), updateUser);

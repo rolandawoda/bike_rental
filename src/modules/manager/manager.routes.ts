@@ -16,7 +16,7 @@ import {
 } from "./manager.validation";
 import {
   getUsers,
-  getUser,
+  getUserById,
   deleteUser,
   updateUser,
 } from "../user/user.controller";
@@ -40,8 +40,8 @@ router.put(
 
 // /api/manager/users
 router.get("/users", authenticateManager, getUsers);
-router.get("/users/id", authenticateManager, getUser);
-router.put("/users/id", authenticateManager, updateUser);
-router.delete("/users/id", authenticateManager, deleteUser);
+router.get("/users/:id", authenticateManager, getUserById);
+router.put("/users/:id", authenticateManager, updateUser);
+router.delete("/users/:id", authenticateManager, deleteUser);
 
 export { router as managerRouter };

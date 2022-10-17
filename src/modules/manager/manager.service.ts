@@ -9,7 +9,7 @@ const getManager: (id: string) => Promise<IManager> = async (id) => {
 };
 
 const getManagers: () => Promise<IManager[]> = async () => {
-  return await Manager.find();
+  return await Manager.find().select(['-password']);
 };
 
 const deleteManager: (id: string) => Promise<void> = async (id) => {
@@ -21,12 +21,13 @@ const updateManager: (id: string, data: IManager) => Promise<IManager> = async (
   id,
   data
 ) => {
+  delete data.password;
   const manager = await Manager.findOneAndUpdate({ id }, data, {
     new: true,
   });
   if (!manager) throw new CustomError(404, "Manager not found");
 
-  return manager;
+  return manager.removeSensitiveData();
 };
 
 const registerManager: (data: IManager) => Promise<any> = async (data) => {
