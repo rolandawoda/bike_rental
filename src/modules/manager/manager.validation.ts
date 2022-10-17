@@ -1,5 +1,4 @@
-import Joi from 'joi'
-import { isObjectId } from '@utils/helpers'
+import Joi from 'joi';
 
 export const validateCreateManager = {
   body: Joi.object({
