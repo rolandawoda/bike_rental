@@ -1,4 +1,5 @@
 import http from "http";
+import mongoose from "mongoose";
 
 import app from "./app";
 import logger from "config/logger";
@@ -7,6 +8,7 @@ import config from "config/config";
 let server: http.Server;
 
 const main = async () => {
+  await mongoose.connect(config.mongoose.url);
   server = app.listen(config.port, () => {
     logger.info(`Server listening on port ${config.port}`);
   });
@@ -16,7 +18,6 @@ main().catch((err: Error) => {
   logger.error(`Server failed to start: ${err.message}`);
   process.exit();
 });
-
 
 const exitHandler = () => {
   if (server) {

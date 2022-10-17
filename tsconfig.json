@@ -8,6 +8,11 @@
     "outDir": "build",
     "rootDir": "src",
     "baseUrl": "./src/",
+    "paths": {
+      "@config/*": ["config/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@utils/*": ["utils/*"]
+    },
     "resolveJsonModule": true
   },
   "lib": ["es2015"]
