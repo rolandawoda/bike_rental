@@ -31,6 +31,13 @@ managerSchema.pre("save", async function (this: IManager) {
   this.password = await bcrypt.hash(this.password, 8);
 });
 
+managerSchema.methods.removeSensitiveData = function () {
+  const manager = this.toObject()
+  delete manager.password
+  return manager
+}
+
+
 managerSchema.statics.generateAuthToken = function (id, email) {
   const token = jwt.sign({ _id: id, email: email }, config.jwt.secret);
   return token;

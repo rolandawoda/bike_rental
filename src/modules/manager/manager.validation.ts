@@ -19,4 +19,15 @@ export const validateLoginManager= {
   })
 }
 
+export const validateUpdateManager= {
+  body: Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string().email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net'] }
+    }),
+    password: Joi.string().min(5)
+  })
+}
+
 

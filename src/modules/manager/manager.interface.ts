@@ -4,6 +4,7 @@ export interface IManager extends Document {
     name:string,
     email: string,
     password: string,
+    removeSensitiveData: () => IManager
 }
 
 export interface IManagerModel extends Model<IManager> {
