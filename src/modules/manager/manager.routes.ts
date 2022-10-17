@@ -20,6 +20,8 @@ import {
   deleteUser,
   updateUser,
 } from "../user/user.controller";
+import { createBike, deleteBike, getBike, getBikes, updateBike } from "modules/bike/bike.controller";
+import { validateCreateBike } from "modules/bike/bike.validation";
 
 const router = Router();
 
@@ -43,5 +45,12 @@ router.get("/users", authenticateManager, getUsers);
 router.get("/users/:id", authenticateManager, getUserById);
 router.put("/users/:id", authenticateManager, updateUser);
 router.delete("/users/:id", authenticateManager, deleteUser);
+
+// /api/manager/bikes
+router.post("/bikes", validate(validateCreateBike), authenticateManager, createBike);
+router.get("/bikes", authenticateManager, getBikes);
+router.get("/bikes/:id", authenticateManager, getBike);
+router.delete("/bikes/:id", authenticateManager, deleteBike);
+router.put("/bikes/:id", validate(validateCreateBike), authenticateManager, updateBike);
 
 export { router as managerRouter };
