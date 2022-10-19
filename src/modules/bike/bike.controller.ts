@@ -18,7 +18,7 @@ const getBikes = catchError(async (req, res) => {
   if(params.rate) {
     // filter["bike_model"] = params.model
   }
-  
+  filter["available"] = true
   let bikes = await bikeService.getBikes(filter);
   
     res.status(200).json({

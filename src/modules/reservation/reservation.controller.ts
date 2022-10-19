@@ -3,7 +3,12 @@ import catchError from "@utils/catchError";
 import reservationService from "./reservation.service";
 
 const getReservations = catchError(async(req, res) => {
-    let reservations = await reservationService.getReservations({})
+  let filter = {}
+  let params = req.query
+  if(params.user_id) filter["user_id"] = params.user_id
+  if(params.bike_id) filter["bike_id"] = params.bike_id
+
+  let reservations = await reservationService.getReservations(filter)
 
     res.status(200).json({
         status: "success",

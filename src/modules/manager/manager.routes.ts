@@ -56,7 +56,8 @@ router.delete("/bikes/:id", authenticateManager, deleteBike);
 router.put("/bikes/:id", validate(validateCreateBike), authenticateManager, updateBike);
 
 // /api/manager/reservations
+// ?user_id=1 & bike_id=1
 router.get("/reservations", authenticateManager, getReservations);
 router.get("/reservations/:id", authenticateManager, getReservation);
-router.put('/reservation/:id', authenticateManager, validate(validateUpdateReservation), managerUpdateReservation)
+router.put('/reservations/:id', authenticateManager, validate(validateUpdateReservation), managerUpdateReservation)
 export { router as managerRouter };
