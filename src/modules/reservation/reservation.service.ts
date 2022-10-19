@@ -15,7 +15,6 @@ const getReservation:(id:string) => Promise<IReservation> = async (id) => {
 
 const createReservation: (data:IReservation) => Promise<any> =async(data) =>{
     await Reservation.create(data)
-    // await Bike.findByIdAndUpdate(data.bike_id, {available:false})
 }
 
 const updateReservation: (id:string, data:IReservation) => Promise<IReservation> = async(id, data) =>{
