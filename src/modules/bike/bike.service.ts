@@ -3,8 +3,10 @@ import Bike from "./bike.model"
 import CustomError from "@utils/CustomError.class";
 
 
-const getBikes:() => Promise<IBike[]> = async ()=> {
-    return await Bike.find()
+const getBikes:(filter:object) => Promise<IBike[]> = async (filter)=> {
+    return await Bike.aggregate([
+      {$match:filter},
+    ]).exec()
 }
 const getBike:(id: string) => Promise<IBike> = async (id)=> {
     const bike = await Bike.findById(id)

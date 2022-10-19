@@ -2,8 +2,8 @@ import CustomError from "@utils/CustomError.class";
 import { IReservation } from "./reservation.interface";
 import Reservation from "./reservation.model";
 
-const getReservations:(params:object) => Promise<IReservation[]> = async (params)=>{
-    return await Reservation.find(params)
+const getReservations:(filter:object) => Promise<IReservation[]> = async (filter)=>{
+    return await Reservation.find(filter)
 }
 
 const getReservation:(id:string) => Promise<IReservation> = async (id) => {

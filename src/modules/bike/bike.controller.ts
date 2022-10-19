@@ -2,7 +2,24 @@ import catchError from "@utils/catchError";
 import bikeService from "./bike.service";
 
 const getBikes = catchError(async (req, res) => {
-    let bikes = await bikeService.getBikes();
+  let filter = {}
+  let params = req.query
+  if(params.color) filter["color"] = params.color
+  if(params.model) filter["bike_model"] = params.model
+  if(params.longitude && params.latitude) {
+    filter["location.longitude"] = params.longitude
+    filter["location.latitude"] = params.latitude
+  }
+  if(params.from && params.to){
+    let start = new Date((params.from) as any * 1000)
+    let end = new Date((params.to) as any * 1000)
+    filter["createdAt"] = {$gte: start, $lt:end }
+  }
+  if(params.rate) {
+    // filter["bike_model"] = params.model
+  }
+  
+  let bikes = await bikeService.getBikes(filter);
   
     res.status(200).json({
       status: "success",
