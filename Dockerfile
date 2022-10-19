@@ -6,5 +6,5 @@ RUN yarn install
 COPY . .
 
 RUN yarn build
-# EXPOSE 9000
-CMD ["node", "build/index.js"]
+EXPOSE 9000
+CMD ["npm", "start"]
