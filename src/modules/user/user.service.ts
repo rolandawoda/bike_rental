@@ -22,9 +22,7 @@ const updateUser: (id: string, data: IUser) => Promise<IUser> = async (
   data
 ) => {
   delete data.password;
-  const user = await User.findOneAndUpdate({ _id: id }, data, {
-    new: true,
-  });
+  const user = await User.findByIdAndUpdate(id, data);
   if (!user) throw new CustomError(404, "User not found");
 
   return user.removeSensitiveData();

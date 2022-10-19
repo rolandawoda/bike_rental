@@ -19,7 +19,7 @@ const createBike : (data:IBike) => Promise<any> = async(data) => {
 }
 
 const deleteBike: (id: string) => Promise<void> = async (id) => {
-    const bike = await Bike.findOneAndDelete({ id });
+    const bike = await Bike.findOneAndDelete({ _id:id });
     if (!bike) throw new CustomError(404, "Manager not found");
   };
   
@@ -27,9 +27,7 @@ const deleteBike: (id: string) => Promise<void> = async (id) => {
     id,
     data
   ) => {
-    const bike = await Bike.findOneAndUpdate({ id }, data, {
-      new: true,
-    });
+    const bike = await Bike.findByIdAndUpdate(id, data);
     if (!bike) throw new CustomError(404, "Bike not found");
   
     return bike;

@@ -19,9 +19,7 @@ const createReservation: (data:IReservation) => Promise<any> =async(data) =>{
 }
 
 const updateReservation: (id:string, data:IReservation) => Promise<IReservation> = async(id, data) =>{
-    const reservation = await Reservation.findOneAndUpdate({ id }, data, {
-        new: true,
-      });
+    const reservation = await Reservation.findByIdAndUpdate(id, data);
       if (!reservation) throw new CustomError(404, "Reservation not found");
     
       return reservation;
