@@ -45,6 +45,14 @@ const getUserReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
 const createReservation = catchError(async (req:IGetUserInfoRequest, res) =>{
     const data = {...req.body, user_id:req.userID}
 
+    // check if reservation with bike_id and user_id and status pending
+    if(await reservationService.reservationExists({user_id:req.userID, bike_id:data.bike_id, status: ReservationStatus.PENDING})){
+      return  res.status(200).json({
+          status: "success",
+          message: "You have a pending reservation for this bike",
+        });
+    }
+
     const reservation = await reservationService.createReservation(data)
     res.status(200).json({
       status: "success",

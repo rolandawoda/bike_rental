@@ -3,8 +3,12 @@ import Bike from "modules/bike/bike.model";
 import { IReservation } from "./reservation.interface";
 import Reservation from "./reservation.model";
 
+const reservationExists:(filter:object) => Promise<boolean> = async(filter) =>{
+   return await Reservation.exists(filter) === null ? false : true
+}
+
 const getReservations:(filter:object) => Promise<IReservation[]> = async (filter)=>{
-    return await Reservation.find(filter).populate("bike_id").populate("user_id")
+    return await Reservation.find(filter).populate("bike_id").populate("user_id").sort({date_from: -1})
 }
 
 const getReservation:(id:string) => Promise<IReservation> = async (id) => {
@@ -25,5 +29,5 @@ const updateReservation: (id:string, data:IReservation) => Promise<IReservation>
 }
 
 export default{
-    getReservations, getReservation, createReservation, updateReservation
+    getReservations, getReservation, createReservation, updateReservation, reservationExists
 }
