@@ -12,8 +12,8 @@ const bikeSchema = new Schema<IBike>({
     },
     location:{
         type:{type: String, default: "Point"},
-        longitude:{type: Number,  required: [true, "Longitude is required"],},
-        latitude:{type: Number,  required: [true, "Latitude is required"],}
+        longitude:{type: String,  required: [true, "Longitude is required"],},
+        latitude:{type: String,  required: [true, "Latitude is required"],}
     },
     rate:{
         type: Number,

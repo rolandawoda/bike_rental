@@ -4,12 +4,26 @@ import bikeService from "./bike.service";
 const getBikes = catchError(async (req, res) => {
   let filter = {}
   let params = req.query
-  if(params.color) filter["color"] = params.color
-  if(params.model) filter["bike_model"] = params.model
-  if(params.longitude && params.latitude) {
-    filter["location.longitude"] = params.longitude
-    filter["location.latitude"] = params.latitude
+  if(params.color) {
+    let color = params.color as string
+    filter["color"] = { $in: color.split(",")}
   }
+  if(params.model) {
+    let model = params.model as string
+    filter["bike_model"] = { $in: model.split(",")}
+  }
+  if(params.location){
+    let location = params.location as string, lng = [], lat = []
+    location.split(",").map((m) => {
+      let sp = m.split(" ")
+      lng.push(sp[0])
+      lat.push(sp[1])
+    })
+
+    filter["location.longitude"] = {$in: lng}
+    filter["location.latitude"] = {$in: lat}
+  }
+ 
   if(params.from && params.to){
     let start = new Date((params.from) as any * 1000)
     let end = new Date((params.to) as any * 1000)
@@ -18,7 +32,10 @@ const getBikes = catchError(async (req, res) => {
   if(params.rate) {
     // filter["bike_model"] = params.model
   }
-  filter["available"] = true
+if(params.available){
+  filter["available"] = params.available
+}
+  console.log(filter)
   let bikes = await bikeService.getBikes(filter);
   
     res.status(200).json({

@@ -6,8 +6,8 @@ export const validateCreateBike = {
         color: Joi.string().required(),
         location: Joi.object().keys({
             type: Joi.string(),
-            longitude: Joi.number().required(),
-            latitude: Joi.number().required(),
+            longitude: Joi.string().required(),
+            latitude: Joi.string().required(),
         })       
     })
 }
