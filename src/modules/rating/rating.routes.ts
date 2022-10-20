@@ -5,7 +5,7 @@ import { createRating } from "./rating.controller";
 import { validateCreateRating } from "./rating.validation";
 
 const router = Router();
-// api/rating
+// api/ratings
 router.post("/", authenticateUser,validate(validateCreateRating), createRating)
 
 export { router as ratingRouter };
