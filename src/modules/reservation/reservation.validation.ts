@@ -15,6 +15,6 @@ export const validateUpdateReservation ={
         bike_id: Joi.string(),
         date_from: Joi.string(),
         date_to: Joi.string(),
-        status: Joi.string().valid(ReservationStatus)
+        status: Joi.string().valid(...Object.values(ReservationStatus))
     })
 }
