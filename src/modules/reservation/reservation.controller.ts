@@ -63,7 +63,7 @@ const createReservation = catchError(async (req:IGetUserInfoRequest, res) =>{
 const updateReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
     const data = {...req.body, user_id:req.userID}
 
-    if(data.status && (data.status !== ReservationStatus.CANCELLED|| data.status !== ReservationStatus.COMPLETED)){
+    if(data.status && !(data.status !== ReservationStatus.CANCELLED || data.status !== ReservationStatus.COMPLETED)){
       return res.status(400).json({
          status: "error",
          message: "User Reservation status must be CANCELLED or COMPLETED",
