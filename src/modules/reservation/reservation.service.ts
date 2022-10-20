@@ -4,7 +4,7 @@ import { IReservation } from "./reservation.interface";
 import Reservation from "./reservation.model";
 
 const getReservations:(filter:object) => Promise<IReservation[]> = async (filter)=>{
-    return await Reservation.find(filter)
+    return await Reservation.find(filter).populate("bike_id").populate("user_id")
 }
 
 const getReservation:(id:string) => Promise<IReservation> = async (id) => {
