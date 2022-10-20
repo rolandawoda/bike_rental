@@ -15,6 +15,10 @@ const bikeSchema = new Schema<IBike>({
         longitude:{type: Number,  required: [true, "Longitude is required"],},
         latitude:{type: Number,  required: [true, "Latitude is required"],}
     },
+    rate:{
+        type: Number,
+        default: 0,
+    },
     available:{
         type: Boolean,
        default: true
