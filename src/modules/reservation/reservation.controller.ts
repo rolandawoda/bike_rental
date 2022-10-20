@@ -63,12 +63,15 @@ const updateReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
        });
      }
 
-    const reservation = await reservationService.updateReservation(req.params.id, data)
+     let reservation = await reservationService.getReservation(req.params.id)
+      await reservationService.updateReservation(reservation._id, data)
+
     // update bike availability
     if(data.status && data.status === ReservationStatus.CANCELLED){
-      let bike = await bikeService.getBike(data.bike_id)
+      let bike_id = reservation.bike_id  as any
+      let bike = await bikeService.getBike(bike_id)
       bike.available = true
-      await bikeService.updateBike(data.bike_id, bike)
+      await bikeService.updateBike(bike_id, bike)
     }
 
     res.status(200).json({
@@ -82,13 +85,14 @@ const managerUpdateReservation = catchError(async(req:IGetMangerInfoRequest, res
     const data = {...req.body}
     const reservation = await reservationService.updateReservation(req.params.id, data)
     // update bike availability
-    let bike = await bikeService.getBike(data.bike_id)
+    let bike_id = reservation.bike_id  as any
+    let bike = await bikeService.getBike(bike_id)
     if(data.status && data.status === ReservationStatus.APPROVED){
       bike.available = false
     }else if(data.status && data.status === ReservationStatus.COMPLETED ){
       bike.available = true
     }
-    await bikeService.updateBike(data.bike_id, bike)
+    await bikeService.updateBike(bike_id, bike)
 
     res.status(200).json({
       status: "success",
