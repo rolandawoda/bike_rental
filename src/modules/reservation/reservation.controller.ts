@@ -1,5 +1,7 @@
 import { IGetMangerInfoRequest, IGetUserInfoRequest } from "@middlewares/authentication";
 import catchError from "@utils/catchError";
+import bikeService from "modules/bike/bike.service";
+import { ReservationStatus } from "./reservation.interface";
 import reservationService from "./reservation.service";
 
 const getReservations = catchError(async(req, res) => {
@@ -53,7 +55,22 @@ const createReservation = catchError(async (req:IGetUserInfoRequest, res) =>{
 const updateReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
     const data = {...req.body, user_id:req.userID}
 
+    if(data.status && data.status !== ReservationStatus.CANCELLED){
+      return res.status(200).json({
+         status: "success",
+         message: "User Reservation status must be CANCELLED",
+         data: {}
+       });
+     }
+
     const reservation = await reservationService.updateReservation(req.params.id, data)
+    // update bike availability
+    if(data.status && data.status === ReservationStatus.CANCELLED){
+      let bike = await bikeService.getBike(data.bike_id)
+      bike.available = true
+      await bikeService.updateBike(data.bike_id, bike)
+    }
+
     res.status(200).json({
       status: "success",
       message: "Reservation updated successful",
@@ -63,8 +80,16 @@ const updateReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
 
 const managerUpdateReservation = catchError(async(req:IGetMangerInfoRequest, res) =>{
     const data = {...req.body}
-
     const reservation = await reservationService.updateReservation(req.params.id, data)
+    // update bike availability
+    let bike = await bikeService.getBike(data.bike_id)
+    if(data.status && data.status === ReservationStatus.APPROVED){
+      bike.available = false
+    }else if(data.status && data.status === ReservationStatus.COMPLETED ){
+      bike.available = true
+    }
+    await bikeService.updateBike(data.bike_id, bike)
+
     res.status(200).json({
       status: "success",
       message: "Reservation updated successful",
