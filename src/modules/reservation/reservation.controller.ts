@@ -10,6 +10,12 @@ const getReservations = catchError(async(req, res) => {
   if(params.user_id) filter["user_id"] = params.user_id
   if(params.bike_id) filter["bike_id"] = params.bike_id
 
+  if(params.from && params.to){
+    let start = new Date((params.from) as any * 1000)
+    let end = new Date((params.to) as any * 1000)
+    filter["createdAt"] = {$gte: start, $lt:end }
+  }
+
   let reservations = await reservationService.getReservations(filter)
 
     res.status(200).json({
@@ -33,7 +39,16 @@ const getReservation = catchError(async(req, res) => {
 })
 
 const getUserReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
-    let reservations = await reservationService.getReservations({user_id:req.userID})
+  let params = req.query
+  let filter = {
+    user_id : req.userID
+  }
+  if(params.from && params.to){
+    let start = new Date((params.from) as any * 1000)
+    let end = new Date((params.to) as any * 1000)
+    filter["createdAt"] = {$gte: start, $lt:end }
+  }
+    let reservations = await reservationService.getReservations(filter)
     res.status(200).json({
         status: "success",
         message: "Reservation",
