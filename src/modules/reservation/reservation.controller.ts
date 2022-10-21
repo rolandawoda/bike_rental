@@ -72,7 +72,7 @@ const updateReservation = catchError(async(req:IGetUserInfoRequest, res) =>{
      }
 
      let reservation = await reservationService.getReservation(req.params.id)
-      await reservationService.updateReservation(reservation._id, data)
+     reservation =  await reservationService.updateReservation(reservation._id, data)
 
     // update bike availability
     if(data.status && data.status === ReservationStatus.CANCELLED){

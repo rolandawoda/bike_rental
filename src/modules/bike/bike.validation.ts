@@ -8,6 +8,7 @@ export const validateCreateBike = {
             type: Joi.string(),
             longitude: Joi.string().required(),
             latitude: Joi.string().required(),
-        })       
+        }),   
+        label: Joi.string().required(),
     })
 }

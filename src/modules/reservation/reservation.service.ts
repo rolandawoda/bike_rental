@@ -4,7 +4,7 @@ import { IReservation } from "./reservation.interface";
 import Reservation from "./reservation.model";
 
 const reservationExists:(filter:object) => Promise<boolean> = async(filter) =>{
-   return await Reservation.exists(filter) === null ? false : true
+    return await Reservation.exists(filter)
 }
 
 const getReservations:(filter:object) => Promise<IReservation[]> = async (filter)=>{

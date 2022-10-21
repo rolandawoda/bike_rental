@@ -30,7 +30,7 @@ const getBikes = catchError(async (req, res) => {
     filter["createdAt"] = {$gte: start, $lt:end }
   }
   if(params.rate) {
-    // filter["bike_model"] = params.model
+    filter["rate"] = {$in: params.rate}
   }
 if(params.available){
   filter["available"] = params.available
