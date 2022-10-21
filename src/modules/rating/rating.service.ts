@@ -5,8 +5,11 @@ const createRating:(data:IRating)=> Promise<any>= async(data)=>{
     await Rating.create(data)
 }
 
-const sumRating:(filter:object) => Promise<any>= async(filter)=>{
-   return await Rating.aggregate([filter]).exec()
+const sumRating:(match:object, group: object) => Promise<any>= async(match, group)=>{
+   return await Rating.aggregate([
+    //    {$match:match}, 
+       {$group:group}
+    ]).exec()
 } 
 
 const countRating:(filter:object) => Promise<any>= async(filter) => {
